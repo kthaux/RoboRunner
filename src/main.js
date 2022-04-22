@@ -1,17 +1,31 @@
-//basic main.js copied over from the rocket patrol game
-
+//
+const SCALE = 0.5;
+const tileSize = 35;
+let cursors;
+//maybe unnessecary with cursors
+let keyW, keyA, keyS, keyD, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+//establish main game config and physics
 let config = 
 {
     type: Phaser.AUTO,
-    width: 640,
-    height: 480,
-    scene: [ Menu, Play]
-}
+    width: 1280,
+    height: 720,
+    
+    physics: 
+    {
+        default: 'arcade',
+        arcade: 
+        {
+            debug: true,
+            gravity: 
+            {
+                x: 0,
+                y: 0
+            }
+        }
+    },
+
+    scene: [ Load, Play ] //TODO put menu back in after testing
+};
 
 let game = new Phaser.Game(config);
-
-// reserve keyboard vars
-let keyW, keyA, keyS, keyD, keyLEFT, keyRIGHT, keyUP, keyDOWN;
-
-//borderUISize = game.config.height / 15;
-//borderPadding = borderUISize / 3;
