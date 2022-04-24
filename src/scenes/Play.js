@@ -19,7 +19,7 @@ class Play extends Phaser.Scene
         //add scrolling background sprite TODO: custom asset
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
         //add our robo boy sprite TODO: custom sprite/animation
-        this.robo = this.physics.add.sprite(120, game.config.height/2-tileSize, 'robo').setScale(SCALE);
+        this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
         
         // display score
         let scoreConfig = 
@@ -55,7 +55,8 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
         // GAME OVER flag
         this.gameOver = false;
-
+        
+        this.input.on('pointerdown', this.jump, this);
     }
 
     update()
@@ -63,6 +64,10 @@ class Play extends Phaser.Scene
        this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
 
+    }
+
+    jump(){
+        this.robo.setVelocityY(-1000);
     }
 
     /*
