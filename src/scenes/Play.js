@@ -56,18 +56,21 @@ class Play extends Phaser.Scene
         // GAME OVER flag
         this.gameOver = false;
         
-        this.input.on('pointerdown', this.jump, this);
+        this.isJumping = false;
     }
 
     update()
     {
        this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
-
+       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3){
+           this.jump();
+       }
     }
 
     jump(){
-        this.robo.setVelocityY(-1000);
+        this.isJumping = true;
+        this.robo.setVelocityY(-900);
     }
 
     /*
