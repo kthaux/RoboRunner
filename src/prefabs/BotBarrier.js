@@ -18,7 +18,7 @@ class BotBarrier extends Phaser.Physics.Arcade.Sprite
         {
             this.newBarrier = false;
 
-            this.scene.createBotBarrier(this.parent, this.velocity);
+            this.scene.createBotBarrier(this.parent, (this.velocity + (Phaser.Math.Between(0, 500))) );
         }
         if(this.x < -this.width)
         {
