@@ -55,8 +55,12 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
         // GAME OVER flag
         this.gameOver = false;
-        
-        this.isJumping = false;
+
+        this.anims.create({
+            key: 'running',
+            frames: this.anims.generateFrameNumbers('running', { start: 0, end: 9, first: 0}),
+            frameRate: 30
+        });
     }
 
     update()
@@ -69,8 +73,15 @@ class Play extends Phaser.Scene
     }
 
     jump(){
-        this.isJumping = true;
         this.robo.setVelocityY(-900);
+    }
+
+    injuredJump(){
+        this.timer = this.time.addEvent({
+            delay: 500,
+            callback: this.jump(),
+            callbackScope: this
+        })
     }
 
     /*
