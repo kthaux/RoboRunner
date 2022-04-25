@@ -21,7 +21,7 @@ class Play extends Phaser.Scene
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
         //add our robo boy sprite TODO: custom sprite/animation
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
-        this.robo.setGravityY(2600);
+        this.robo.setGravityY(2400);
         // display score
         let scoreConfig = 
         {
@@ -101,7 +101,7 @@ class Play extends Phaser.Scene
 
 
     jump(){
-        this.robo.setVelocityY(-900);
+        this.robo.setVelocityY(-1000);
     }
 
     createBotBarrier()
