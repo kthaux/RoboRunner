@@ -8,7 +8,8 @@ class Play extends Phaser.Scene
     create()
     {
         this.SPEED = 4;
-        this.physics.world.gravity.y = 2600;
+        this.barrierSpeed = -450;
+        //this.physics.world.gravity.y = 2600;
 
         // define keys maybe not needed with cursors
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -20,7 +21,7 @@ class Play extends Phaser.Scene
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
         //add our robo boy sprite TODO: custom sprite/animation
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
-        
+        this.robo.setGravityY(2600);
         // display score
         let scoreConfig = 
         {
@@ -35,6 +36,21 @@ class Play extends Phaser.Scene
             },
             fixedWidth: 100
         }
+
+        //establish group for bottom barriers
+        this.botBarrierGroup = this.add.group({
+            runChildUpdate: true
+        });
+        //establish group for top barriers
+        this.topBarrierGroup = this.add.group({
+            runChildUpdate: true
+        });
+
+        this.time.delayedCall(2500, () => {
+            this.createBotBarrier();
+            this.createTopBarrier();
+        })
+
 
         //ground tile code below used from Nathan Altice's Movement Studies
         this.ground = this.add.group();
@@ -76,12 +92,18 @@ class Play extends Phaser.Scene
         this.robo.setVelocityY(-900);
     }
 
-    injuredJump(){
-        this.timer = this.time.addEvent({
-            delay: 500,
-            callback: this.jump(),
-            callbackScope: this
-        })
+    createBotBarrier()
+    {
+        //creat new barrier and pass it a speed
+        let botBarrier = new BotBarrier(this, this.barrierSpeed);
+        this.botBarrierGroup.add(botBarrier);
+    }
+
+    createTopBarrier()
+    {
+        //creat new barrier and pass it a speed
+        let topBarrier = new TopBarrier(this, this.barrierSpeed);
+        this.topBarrierGroup.add(topBarrier);
     }
 
     /*
