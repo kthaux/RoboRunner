@@ -71,12 +71,8 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
         // GAME OVER flag
         this.gameOver = false;
-
-        this.anims.create({
-            key: 'running',
-            frames: this.anims.generateFrameNumbers('running', { start: 0, end: 9, first: 0}),
-            frameRate: 30
-        });
+        this.headHealth = 2;
+        this.legHealth = 2;
     }
 
     update()
@@ -86,6 +82,7 @@ class Play extends Phaser.Scene
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3){
            this.jump();
        }
+
     }
 
     jump(){
@@ -106,15 +103,30 @@ class Play extends Phaser.Scene
         this.topBarrierGroup.add(topBarrier);
     }
 
-    /*
-    checkCollision(rocket, ship) 
+    headCollision() {
+        this.headHealth -= 1;
+        if (this.headHealth == 0) {
+            this.gameOver = true;
+            this.gameEnd();
+        }
+    }
+
+    legCollision() {
+        this.legHealth -= 1;
+        if (this.legHealth == 0) {
+            this.gameOver = true;
+            this.gameEnd();
+        }
+    }
+
+    checkCollision(man, obstacle) 
     {
         // simple AABB checking
         //check if a rocket and ship have overlapping sprites
-        if (rocket.x < ship.x + ship.width && 
-            rocket.x + rocket.width > ship.x && 
-            rocket.y < ship.y + ship.height &&
-            rocket.height + rocket.y > ship. y) 
+        if (man.x < obstacle.x + obstacle.width && 
+            man.x + man.width > obstacle.x && 
+            man.y < obstacle.y + obstacle.height &&
+            man.height + man.y > obstacle. y) 
             {
                 return true;
         } 
@@ -123,7 +135,5 @@ class Play extends Phaser.Scene
             return false;
         }
     }
-
-    */
 
 }
