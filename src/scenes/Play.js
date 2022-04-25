@@ -45,7 +45,7 @@ class Play extends Phaser.Scene
         this.topBarrierGroup = this.add.group({
             runChildUpdate: true
         });
-
+        //start spawning barriers after 2.5 seconds
         this.time.delayedCall(2500, () => {
             this.createBotBarrier();
             this.createTopBarrier();
@@ -79,11 +79,26 @@ class Play extends Phaser.Scene
     {
        this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
-       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3){
+       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
+       {
            this.jump();
        }
-
+       //alternate type of collision detection
+       //this.physics.world.collide(this.robo, this.botBarrierGroup, this.botCollision, null, this);
+       //this.physics.world.collide(this.robo, this.topBarrierGroup, this.topCollision, null, this);
+       
+       //check for bot collision
+       if(this.physics.world.overlap(this.robo, this.botBarrierGroup))
+       {
+           this.botCollision();
+       }
+       //check for top collision
+       if(this.physics.world.overlap(this.robo, this.topBarrierGroup))
+       {
+           this.topCollision();
+       }
     }
+
 
     jump(){
         this.robo.setVelocityY(-900);
@@ -135,5 +150,16 @@ class Play extends Phaser.Scene
             return false;
         }
     }
+
+    botCollision()
+    {
+        console.log('detected collision with bot barrier');
+    }
+    topCollision()
+    {
+        console.log('detected collision with top barrier');
+    }
+
+    
 
 }
