@@ -1,4 +1,10 @@
-//
+/*
+Collaborator Names: Keaton Haux, Sean Osborne, Jennifer To
+Game Title: Robo Runner
+Date Completed: 05/01/2022
+Creative Tilt Justification: 
+*/
+
 const SCALE = 0.5;
 const tileSize = 35;
 let cursors;
