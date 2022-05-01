@@ -96,7 +96,7 @@ class Play extends Phaser.Scene
        if(this.physics.world.overlap(this.robo, this.topBarrierGroup))
        {
            this.topCollision();
-       }
+        }
     }
 
 
