@@ -8,7 +8,7 @@ class Play extends Phaser.Scene
     create()
     {
         this.SPEED = 4;
-        this.barrierSpeed = -450;
+        this.barrierSpeed = -300;
         //this.physics.world.gravity.y = 2600;
 
         // define keys maybe not needed with cursors
@@ -41,6 +41,8 @@ class Play extends Phaser.Scene
         this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
+        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
         //establish group for bottom barriers
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -77,6 +79,11 @@ class Play extends Phaser.Scene
 
         // GAME OVER flag
         this.gameOver = false;
+
+        //background for the repair section of the screen
+        this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
+
+        this.gear1 = this.add.sprite(game.config.width/ 2,game.config.height /2,300, 300, 'gear');
     }
 
     update()
@@ -108,6 +115,23 @@ class Play extends Phaser.Scene
         
     }
 
+    takeDamage()
+    {
+        this.cameras.main.flash(250, 255,0, 0)
+        if(this.health == 1){
+            this.health -= 1;
+            this.healthCount.text = "Health: " + this.health;
+            this.robo.setTexture("dead");
+            this.gameOver = true;
+        }
+        if(this.health == 2){
+            this.health -= 1;
+            this.robo.setTexture("hurt");
+            this.healthCount.text = "Health: " + this.health;
+        }
+
+    }
+
     jump(){
         this.robo.setVelocityY(-1000);
     }
@@ -126,22 +150,6 @@ class Play extends Phaser.Scene
         this.topBarrierGroup.add(topBarrier);
     }
 
-    checkCollision(man, obstacle) 
-    {
-        // simple AABB checking
-        //check if a rocket and ship have overlapping sprites
-        if (man.x < obstacle.x + obstacle.width && 
-            man.x + man.width > obstacle.x && 
-            man.y < obstacle.y + obstacle.height &&
-            man.height + man.y > obstacle. y) 
-            {
-                return true;
-        } 
-        else 
-        {
-            return false;
-        }
-    }
 
     botCollision()
     {

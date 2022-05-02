@@ -3,7 +3,7 @@ class TopBarrier extends Phaser.Physics.Arcade.Sprite
     constructor(scene, velocity)
     {
         //sprite constructor
-        super(scene, game.config.width, game.config.height/2, 'topBarrier');
+        super(scene, game.config.width - 400, game.config.height - tileSize*7, 'topBarrier');
         //setup
         scene.add.existing(this);
         scene.physics.add.existing(this);
