@@ -39,8 +39,7 @@ class Play extends Phaser.Scene
         {
             fontFamily: 'Cheri',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            color: '#FF0000',
             align: 'left',
             padding: {
             top: 5,
@@ -114,15 +113,15 @@ class Play extends Phaser.Scene
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
 
 
-
-        /*this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
+        //gears and screw dragging and dropping set up with reference to Nathan Altice's "They Are Listening" repo
+        this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
         this.screw1.setInteractive({
             dropZone: true
         });
         this.screw2 = this.add.sprite(game.config.width - 130, 110, 'screw');
         this.screw2.setInteractive({
             dropZone: true
-        });*/
+        });
 
         
         //GEAR 1
@@ -194,6 +193,7 @@ class Play extends Phaser.Scene
             this.scene.restart();
         }
         
+        //variable jumping was set up with reference to Nathan Altice's "Movement Studies" repo
         // check if robo is grounded
 	    this.robo.isGrounded = this.robo.body.touching.down;
 	    // if so, we have jumps to spare 
