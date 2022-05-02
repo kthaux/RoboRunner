@@ -52,9 +52,9 @@ class Play extends Phaser.Scene
         this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
         // music
-        var music = this.sound.add('bgm');
-        music.setLoop(true);
-        music.play();
+        this.music = this.sound.add('bgm');
+        this.music.setLoop(true);
+        this.music.play();
 
         //this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         //this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
@@ -303,6 +303,7 @@ class Play extends Phaser.Scene
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.anims.stop();
+            this.music.stop();
             this.robo.setTexture("dead");
             gameOver = true;
             
