@@ -25,9 +25,6 @@ class Play extends Phaser.Scene
         // display score
         this.health = 2;
         this.score = 0;
-        
-        
-        // display score
         let scoreConfig = 
         {
             fontFamily: 'Courier',
@@ -40,6 +37,9 @@ class Play extends Phaser.Scene
             bottom: 5,
             },
         }
+        
+        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
         this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
@@ -47,6 +47,7 @@ class Play extends Phaser.Scene
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
         });
+
         //establish group for top barriers
         this.topBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -75,6 +76,7 @@ class Play extends Phaser.Scene
 
         // add physics collider
         this.physics.add.collider(this.robo, this.ground);
+
         // GAME OVER flag
         this.gameOver = false;
 
@@ -86,22 +88,19 @@ class Play extends Phaser.Scene
 
     update()
     {
-       this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
-
-
+       this.runnerBack.tilePositionX += this.SPEED;
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
        {
            this.jump();
        }
-
-
-       
        
        //check for bot collision
+       
        if(this.physics.world.overlap(this.robo, this.botBarrierGroup))
        {
            this.botCollision();
+           this.takeDamage();
        }
        //check for top collision
        if(this.physics.world.overlap(this.robo, this.topBarrierGroup))
@@ -109,9 +108,12 @@ class Play extends Phaser.Scene
            this.topCollision();
         }
 
+        if(!this.gameOver) {
+            this.score += 1;
+            this.scoreCount.text = "Score: " + this.score;
+        }
         
     }
-
 
     takeDamage()
     {
@@ -148,25 +150,7 @@ class Play extends Phaser.Scene
         this.topBarrierGroup.add(topBarrier);
     }
 
-    /*
-    headCollision() {
-        this.headHealth -= 1;
-        if (this.headHealth == 0) {
-            this.gameOver = true;
-            this.gameEnd();
-        }
-    }
 
-    legCollision() {
-        this.legHealth -= 1;
-        if (this.legHealth == 0) {
-            this.gameOver = true;
-            this.gameEnd();
-        }
-    }
-    */
-
-    
     botCollision()
     {
         let botGroupArr = this.botBarrierGroup.getChildren();
@@ -189,7 +173,21 @@ class Play extends Phaser.Scene
             }
         }
     }
-
     
-
+    takeDamage()
+    {
+        this.cameras.main.flash(250, 255,0, 0)
+        if(this.health == 1){
+            this.health -= 1;
+            this.healthCount.text = "Health: " + this.health;
+            this.robo.setTexture("dead");
+            this.gameOver = true;
+        }
+        if(this.health == 2){
+            this.health -= 1;
+            this.robo.setTexture("hurt");
+            this.healthCount.text = "Health: " + this.health;
+        }
+        
+    }
 }
