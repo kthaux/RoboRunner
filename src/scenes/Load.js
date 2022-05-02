@@ -20,6 +20,7 @@ class Load extends Phaser.Scene
         this.load.image('repairBack', 'assets/repairBack.png');
         this.load.image('clouds', 'assets/clouds.png');
         this.load.image('bg', 'assets/bg.png');
+        this.load.image('screw', 'assets/screw.png');
     }
 
     create() 
