@@ -113,9 +113,12 @@ class Play extends Phaser.Scene
     }
 
     update()
-    {
-       this.gear1.angle += 0.5;
-       this.gear2.angle -= 0.5;
+    { 
+        if(!this.gameOver){
+            this.gear1.angle -= 0.5;
+            this.gear2.angle += 0.5;
+        }
+        
         // check if alien is grounded
 	    this.robo.isGrounded = this.robo.body.touching.down;
 	    // if so, we have jumps to spare 
@@ -134,12 +137,14 @@ class Play extends Phaser.Scene
 	    	this.jumping = false;
 	    }
        
-       
-       
+       if(!this.gameOver)
+       {
+        this.runnerBack.tilePositionX += this.SPEED;
         this.groundScroll.tilePositionX += this.SPEED;
-       this.runnerBack.tilePositionX += this.SPEED;
-       this.clouds.tilePositionX += this.SPEED/4;
-       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
+        this.clouds.tilePositionX += this.SPEED/4;
+       }
+       
+       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3 && !this.gameOver)
        {
            this.jump();
        }
