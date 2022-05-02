@@ -2,7 +2,11 @@
 Collaborator Names: Keaton Haux, Sean Osborne, Jennifer To
 Game Title: Robo Runner
 Date Completed: 05/01/2022
-Creative Tilt Justification: 
+Creative Tilt Justification: Our game implements a split screen of a sort where 1 screen is the endless runner and the other screen
+are the gears that run the "robot" that's running! For programming, we are happy about -programming technique we implemented-. In addition, we
+are decently happy about the art because it all matches each other and nothing necessarily feels out of place.
+
+MAKE SURE TO PUT WHAT PROGRAMMING TECHNIQUE THAT WE ARE HAPPY WE GOT TO IMPLEMENT
 */
 
 const SCALE = 0.5;
