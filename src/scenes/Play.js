@@ -153,10 +153,12 @@ class Play extends Phaser.Scene
            this.topCollision();
         }
 
-        if(!this.gameOver) {
+        if(!this.gameOver) 
+        {
             this.score += 1;
             this.scoreCount.text = "Score: " + this.score;
         }
+
         
     }
 
