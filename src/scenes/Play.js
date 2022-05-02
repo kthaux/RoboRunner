@@ -51,6 +51,11 @@ class Play extends Phaser.Scene
         this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
+        // music
+        var music = this.sound.add('bgm');
+        music.setLoop(true);
+        music.play();
+
         //this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         //this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
         //establish group for bottom barriers
