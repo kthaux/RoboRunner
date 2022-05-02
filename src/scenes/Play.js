@@ -89,24 +89,51 @@ class Play extends Phaser.Scene
         //background for the repair section of the screen
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
 
-        this.gear1 = this.add.sprite(game.config.width - 250, 300, 'gear');
+
+        //GEAR 1
+        this.gear1 = this.add.sprite(game.config.width - 300, 200, 'gear');
         this.gear1.setInteractive({
             draggable: true,
             useHandCursor: true
         });
+
         this.gear1.on('drag', (pointer, dragX, dragY)=>{
             this.gear1.x = dragX;
             this.gear1.y = dragY;
         });
-        this.gear2 = this.add.sprite(game.config.width - 150, 150, 'gear');
+
+        this.gear1.on('dragend', (pointer, dragX, dragY) => {
+            console.log(dragX)
+            if(dragX < 850)
+            {
+                this.gear1.x = game.config.width - 110;
+                this.gear1.y = game.config.height - 100;
+                this.gear1.text
+
+            }
+        });
+        
+        //GEAR2
+        this.gear2 = this.add.sprite(game.config.width - 130, 110, 'gear');
         this.gear2.setInteractive({
             draggable: true,
             useHandCursor: true
         });
+
         this.gear2.on('drag', (pointer, dragX, dragY)=>{
             this.gear2.x = dragX;
             this.gear2.y = dragY;
         });
+
+        this.gear2.on('dragend', (pointer, dragX, dragY) => {
+            if(dragX < 850)
+            {
+                this.gear2.x = game.config.width - 250;
+                this.gear2.text
+
+            }
+        });
+        
     }
 
     update()
