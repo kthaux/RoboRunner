@@ -297,6 +297,7 @@ class Play extends Phaser.Scene
         if(this.health == 1){
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
+            this.robo.anims.stop();
             this.robo.setTexture("dead");
             gameOver = true;
             
@@ -324,6 +325,8 @@ class Play extends Phaser.Scene
             this.health -= 1;
             this.robo.setTexture("hurt");
             this.healthCount.text = "Health: " + this.health;
+            this.robo.anims.stop();
+            this.robo.anims.play('dmgwalking');
         }
         
     }
