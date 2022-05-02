@@ -24,7 +24,10 @@ class Play extends Phaser.Scene
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         //add scrolling background sprite TODO: custom asset
+        this.bg = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg').setOrigin(0);
+        this.clouds = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'clouds').setOrigin(0);
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
+    
         //add our robo boy sprite TODO: custom sprite/animation
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
         this.robo.setGravityY(2200);
@@ -135,6 +138,7 @@ class Play extends Phaser.Scene
        
         this.groundScroll.tilePositionX += this.SPEED;
        this.runnerBack.tilePositionX += this.SPEED;
+       this.clouds.tilePositionX += this.SPEED/4;
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
        {
            this.jump();
