@@ -23,19 +23,23 @@ class Play extends Phaser.Scene
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
         this.robo.setGravityY(2400);
         // display score
+        this.health = 2;
+        this.score = 0;
         let scoreConfig = 
         {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'right',
+            align: 'left',
             padding: {
             top: 5,
             bottom: 5,
             },
-            fixedWidth: 100
         }
+        
+        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
         //establish group for bottom barriers
         this.botBarrierGroup = this.add.group({
@@ -73,51 +77,36 @@ class Play extends Phaser.Scene
 
         // GAME OVER flag
         this.gameOver = false;
-        this.headHealth = 2;
-        this.legHealth = 2;
-        this.botCollider = this.physics.world.collide(this.robo, this.botBarrierGroup, this.botCollision, null, this);
-        this.topCollider = this.physics.world.collide(this.robo, this.topBarrierGroup, this.topCollision, null, this);
     }
 
     update()
     {
-       this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
+       this.runnerBack.tilePositionX += this.SPEED;
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
        {
            this.jump();
        }
-
-       
-       //alternate type of collision detection       
-       if(this.checkCollision(this.robo, this.botBarrierGroup)){
-           
-           console.log("Collision with bottom group.");
-       }
-
-       if(this.checkCollision(this.robo, this.topBarrierGroup)){
-        
-        console.log("Collision with top group.");
-    }
-    
-       
        
        //check for bot collision
        
        if(this.physics.world.overlap(this.robo, this.botBarrierGroup))
        {
-           this.isTouching = true;
            this.botCollision();
+           this.takeDamage();
        }
        //check for top collision
        if(this.physics.world.overlap(this.robo, this.topBarrierGroup))
        {
-            this.isTouching = true;
            this.topCollision();
+        }
+
+        if(!this.gameOver) {
+            this.score += 1;
+            this.scoreCount.text = "Score: " + this.score;
         }
         
     }
-
 
     jump(){
         this.robo.setVelocityY(-1000);
@@ -135,22 +124,6 @@ class Play extends Phaser.Scene
         //creat new barrier and pass it a speed
         let topBarrier = new TopBarrier(this, this.barrierSpeed);
         this.topBarrierGroup.add(topBarrier);
-    }
-
-    headCollision() {
-        this.headHealth -= 1;
-        if (this.headHealth == 0) {
-            this.gameOver = true;
-            this.gameEnd();
-        }
-    }
-
-    legCollision() {
-        this.legHealth -= 1;
-        if (this.legHealth == 0) {
-            this.gameOver = true;
-            this.gameEnd();
-        }
     }
 
     checkCollision(man, obstacle) 
@@ -192,7 +165,21 @@ class Play extends Phaser.Scene
             }
         }
     }
-
     
-
+    takeDamage()
+    {
+        this.cameras.main.flash(250, 255,0, 0)
+        if(this.health == 1){
+            this.health -= 1;
+            this.healthCount.text = "Health: " + this.health;
+            this.robo.setTexture("dead");
+            this.gameOver = true;
+        }
+        if(this.health == 2){
+            this.health -= 1;
+            this.robo.setTexture("hurt");
+            this.healthCount.text = "Health: " + this.health;
+        }
+        
+    }
 }

@@ -11,6 +11,8 @@ class Load extends Phaser.Scene
         this.load.image('groundScroll', 'assets/ground.png');
         this.load.image('groundTile', 'assets/groundTile.png');
         this.load.image('robo', 'assets/robo.png')
+        this.load.image('hurt', 'assets/robo_dmg.png')
+        this.load.image('dead', 'assets/robo_gameover.png')
         this.load.image('topBarrier', 'assets/lamppost.png')
         this.load.image('botBarrier', 'assets/trafficcone.png')
 
