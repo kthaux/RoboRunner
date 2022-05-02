@@ -12,8 +12,9 @@ MAKE SURE TO PUT WHAT PROGRAMMING TECHNIQUE THAT WE ARE HAPPY WE GOT TO IMPLEMEN
 const SCALE = 0.5;
 const tileSize = 35;
 let cursors;
+let gameOver = false;
 //maybe unnessecary with cursors
-let keyW, keyA, keyS, keyD, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN;
 //establish main game config and physics
 let config = 
 {

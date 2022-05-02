@@ -20,6 +20,7 @@ class Play extends Phaser.Scene
         // define keys maybe not needed with cursors
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
@@ -87,36 +88,93 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
 
         // GAME OVER flag
-        this.gameOver = false;
+        gameOver = false;
 
         //background for the repair section of the screen
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
 
-        this.gear1 = this.add.sprite(game.config.width - 250, 300, 'gear');
+
+
+        this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
+        this.screw1.setInteractive({
+            dropZone: true
+        });
+        this.screw2 = this.add.sprite(game.config.width - 130, 110, 'screw');
+        this.screw2.setInteractive({
+            dropZone: true
+        });
+
+        
+        //GEAR 1
+        this.gear1 = this.add.sprite(game.config.width - 300, 200, 'gear');
         this.gear1.setInteractive({
             draggable: true,
             useHandCursor: true
         });
+
         this.gear1.on('drag', (pointer, dragX, dragY)=>{
             this.gear1.x = dragX;
             this.gear1.y = dragY;
+
         });
-        this.gear2 = this.add.sprite(game.config.width - 150, 150, 'gear');
+
+        this.gear1.on('dragend', (pointer, dragX, dragY) => {
+
+            if(pointer.x < 850)
+            {
+                this.gear1.x = game.config.width - 250;
+                this.gear1.setTexture('gear');
+
+            }
+        });
+
+        this.gear1.on('drop', (pointer, target) => {
+            if (target.texture.key === 'screw') {
+                this.health += 1;
+            }
+        });
+
+
+        
+
+        //GEAR2
+        this.gear2 = this.add.sprite(game.config.width - 130, 110, 'gear');
         this.gear2.setInteractive({
             draggable: true,
             useHandCursor: true
         });
+
         this.gear2.on('drag', (pointer, dragX, dragY)=>{
             this.gear2.x = dragX;
             this.gear2.y = dragY;
+
         });
+
+        this.gear2.on('dragend', (pointer, dragX, dragY) => {
+
+            if(pointer.x < 850)
+            {
+                this.gear2.x = game.config.width - 250;
+                this.gear2.setTexture('gear');
+
+            }
+        });
+        
     }
 
     update()
-    {
-       this.gear1.angle += 0.5;
-       this.gear2.angle -= 0.5;
-        // check if alien is grounded
+    { 
+        if(!gameOver)
+        {
+            this.gear1.angle -= 0.5;
+            this.gear2.angle += 0.5;
+        }
+        if(gameOver && Phaser.Input.Keyboard.JustDown(keyR))
+        {
+            this.scene.restart();
+        }
+        
+        // check if robo is grounded
 	    this.robo.isGrounded = this.robo.body.touching.down;
 	    // if so, we have jumps to spare 
 	    if(this.robo.isGrounded) {
@@ -134,12 +192,14 @@ class Play extends Phaser.Scene
 	    	this.jumping = false;
 	    }
        
-       
-       
+       if(!gameOver)
+       {
+        this.runnerBack.tilePositionX += this.SPEED;
         this.groundScroll.tilePositionX += this.SPEED;
-       this.runnerBack.tilePositionX += this.SPEED;
-       this.clouds.tilePositionX += this.SPEED/4;
-       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
+        this.clouds.tilePositionX += this.SPEED/4;
+       }
+       
+       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3 && !gameOver)
        {
            this.jump();
        }
@@ -157,30 +217,13 @@ class Play extends Phaser.Scene
            this.topCollision();
         }
 
-        if(!this.gameOver) 
+        if(!gameOver) 
         {
             this.score += 1;
             this.scoreCount.text = "Score: " + this.score;
         }
 
         
-    }
-
-    takeDamage()
-    {
-        this.cameras.main.flash(250, 255,0, 0)
-        if(this.health == 1){
-            this.health -= 1;
-            this.healthCount.text = "Health: " + this.health;
-            this.robo.setTexture("dead");
-            this.gameOver = true;
-        }
-        if(this.health == 2){
-            this.health -= 1;
-            this.robo.setTexture("hurt");
-            this.healthCount.text = "Health: " + this.health;
-        }
-
     }
 
     jump(){
@@ -210,7 +253,7 @@ class Play extends Phaser.Scene
             if(this.physics.world.overlap(this.robo, botGroupArr[i]))
             {
                 botGroupArr[i].destroy();
-                this.gear1.setTexture('gearBroke');
+                this.gear2.setTexture('gearBroke');
             }
         }
     }
@@ -225,7 +268,7 @@ class Play extends Phaser.Scene
             //    topGroupArr[i].destroy();
             //}
 
-            if(this.robo.y > topGroupArr[i].y)
+            if((this.robo.y > topGroupArr[i].y) && (this.physics.world.overlap(this.robo, topGroupArr[i])))
             {
                 topGroupArr[i].destroy();
             }
@@ -234,13 +277,34 @@ class Play extends Phaser.Scene
     
     takeDamage()
     {
+        this.sound.play('gethit');
         this.cameras.main.flash(250, 255,0, 0)
         if(this.health == 1){
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
-            this.gameOver = true;
+            gameOver = true;
+            
+            this.time.delayedCall(1000, () => {
+                this.sound.play('gameover');
+            });
+
+            this.gear1.destroy();
+            this.gear2.destroy();
+
+            let topGroupArr = this.topBarrierGroup.getChildren();
+            for(let i = 0; i < topGroupArr.length; i++)
+            {
+                topGroupArr[i].destroy();
+            }
+
+            let botGroupArr = this.botBarrierGroup.getChildren();
+            for(let i = 0; i < botGroupArr.length; i++)
+            {
+                botGroupArr[i].destroy();
+            }
         }
+
         if(this.health == 2){
             this.health -= 1;
             this.robo.setTexture("hurt");
