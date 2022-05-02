@@ -298,10 +298,15 @@ class Play extends Phaser.Scene
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
             gameOver = true;
+<<<<<<< HEAD
             /*
             this.time.delayedCall(2500, () => {
                 this.sound.play('gameover');
             }*/
+=======
+            this.gear1.destroy();
+            this.gear2.destroy();
+>>>>>>> e3c718b6f3b37810df7f248d5ada16a0f763bbf6
         }
 
         if(this.health == 2){
