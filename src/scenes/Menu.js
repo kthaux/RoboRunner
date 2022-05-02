@@ -15,7 +15,7 @@ class Menu extends Phaser.Scene
     create()
     {
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Cheri',
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
