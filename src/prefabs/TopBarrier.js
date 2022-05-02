@@ -15,7 +15,7 @@ class TopBarrier extends Phaser.Physics.Arcade.Sprite
 
     update()
     {
-        if(this.newBarrier && this.x < centerX)
+        if(this.newBarrier && this.x < centerX - (Phaser.Math.Between(300, 7500)))
         {
             this.newBarrier = false;
 

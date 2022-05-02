@@ -14,7 +14,7 @@ class BotBarrier extends Phaser.Physics.Arcade.Sprite
 
     update()
     {
-        if(this.newBarrier && this.x < centerX - (Phaser.Math.Between(0, 500)))
+        if(this.newBarrier && this.x < centerX - (Phaser.Math.Between(300, 7500)))
         {
             this.newBarrier = false;
 

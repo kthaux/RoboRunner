@@ -10,6 +10,12 @@ class Play extends Phaser.Scene
         this.SPEED = 4;
         this.barrierSpeed = -300;
         //this.physics.world.gravity.y = 2600;
+        this.ACCELERATION = 1500;
+        this.MAX_X_VEL = 500;   // pixels/second
+        this.MAX_Y_VEL = 5000;
+        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
+        this.MAX_JUMPS = 2; // change for double/triple/etc. jumps 🤾‍♀️
+        this.JUMP_VELOCITY = -700;
 
         // define keys maybe not needed with cursors
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -21,7 +27,7 @@ class Play extends Phaser.Scene
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
         //add our robo boy sprite TODO: custom sprite/animation
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
-        this.robo.setGravityY(2400);
+        this.robo.setGravityY(2200);
         // display score
         this.health = 2;
         this.score = 0;
@@ -88,7 +94,27 @@ class Play extends Phaser.Scene
 
     update()
     {
-       this.groundScroll.tilePositionX += this.SPEED;
+       // check if alien is grounded
+	    this.robo.isGrounded = this.robo.body.touching.down;
+	    // if so, we have jumps to spare 
+	    if(this.robo.isGrounded) {
+	    	this.jumps = this.MAX_JUMPS;
+	    	this.jumping = false;
+	    }
+
+        if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(cursors.up, 150)) {
+	        this.robo.body.velocity.y = this.JUMP_VELOCITY;
+	        this.jumping = true;
+	    }
+       
+       if(this.jumping && Phaser.Input.Keyboard.UpDuration(cursors.up)) {
+	    	this.jumps--;
+	    	this.jumping = false;
+	    }
+       
+       
+       
+        this.groundScroll.tilePositionX += this.SPEED;
        this.runnerBack.tilePositionX += this.SPEED;
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
        {
