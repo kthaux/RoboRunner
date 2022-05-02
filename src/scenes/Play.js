@@ -277,14 +277,22 @@ class Play extends Phaser.Scene
     
     takeDamage()
     {
+        //this.sound.play('hurt');
         this.cameras.main.flash(250, 255,0, 0)
         if(this.health == 1){
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
             gameOver = true;
+
+            /*
+            this.time.delayedCall(2500, () => {
+                this.sound.play('gameover');
+            }*/
+
             this.gear1.destroy();
             this.gear2.destroy();
+
             let topGroupArr = this.topBarrierGroup.getChildren();
             for(let i = 0; i < topGroupArr.length; i++)
             {
@@ -296,8 +304,8 @@ class Play extends Phaser.Scene
             {
                 botGroupArr[i].destroy();
             }
-
         }
+
         if(this.health == 2){
             this.health -= 1;
             this.robo.setTexture("hurt");
