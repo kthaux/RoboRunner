@@ -20,6 +20,7 @@ class Play extends Phaser.Scene
         // define keys maybe not needed with cursors
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
@@ -163,12 +164,17 @@ class Play extends Phaser.Scene
 
     update()
     { 
-        if(!gameOver){
+        if(!gameOver)
+        {
             this.gear1.angle -= 0.5;
             this.gear2.angle += 0.5;
         }
+        if(gameOver && Phaser.Input.Keyboard.JustDown(keyR))
+        {
+            this.scene.restart();
+        }
         
-        // check if alien is grounded
+        // check if robo is grounded
 	    this.robo.isGrounded = this.robo.body.touching.down;
 	    // if so, we have jumps to spare 
 	    if(this.robo.isGrounded) {
@@ -218,26 +224,6 @@ class Play extends Phaser.Scene
         }
 
         
-    }
-
-    takeDamage()
-    {
-        this.cameras.main.flash(250, 255,0, 0)
-        this.sound.play('hit');
-        if(this.health == 1){
-            this.health -= 1;
-            this.healthCount.text = "Health: " + this.health;
-            this.robo.setTexture("dead");
-            gameOver = true;
-            
-
-        }
-        if(this.health == 2){
-            this.health -= 1;
-            this.robo.setTexture("hurt");
-            this.healthCount.text = "Health: " + this.health;
-        }
-
     }
 
     jump(){
@@ -299,8 +285,31 @@ class Play extends Phaser.Scene
             this.robo.setTexture("dead");
             this.sound.play('gameover');
             gameOver = true;
+<<<<<<< HEAD
             this.gear1.destroy();
             this.gear2.destroy();
+=======
+
+            /*
+            this.time.delayedCall(2500, () => {
+                this.sound.play('gameover');
+            }*/
+
+            this.gear1.destroy();
+            this.gear2.destroy();
+
+            let topGroupArr = this.topBarrierGroup.getChildren();
+            for(let i = 0; i < topGroupArr.length; i++)
+            {
+                topGroupArr[i].destroy();
+            }
+
+            let botGroupArr = this.botBarrierGroup.getChildren();
+            for(let i = 0; i < botGroupArr.length; i++)
+            {
+                botGroupArr[i].destroy();
+            }
+>>>>>>> 5ba4632b9a3a9d873c0c5748566f20b9aac448a6
         }
 
         if(this.health == 2){
