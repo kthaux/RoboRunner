@@ -87,7 +87,7 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
 
         // GAME OVER flag
-        this.gameOver = false;
+        gameOver = false;
 
         //background for the repair section of the screen
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
@@ -163,7 +163,7 @@ class Play extends Phaser.Scene
 
     update()
     { 
-        if(!this.gameOver){
+        if(!gameOver){
             this.gear1.angle -= 0.5;
             this.gear2.angle += 0.5;
         }
@@ -186,14 +186,14 @@ class Play extends Phaser.Scene
 	    	this.jumping = false;
 	    }
        
-       if(!this.gameOver)
+       if(!gameOver)
        {
         this.runnerBack.tilePositionX += this.SPEED;
         this.groundScroll.tilePositionX += this.SPEED;
         this.clouds.tilePositionX += this.SPEED/4;
        }
        
-       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3 && !this.gameOver)
+       if(keyW.isDown && this.robo.y > game.config.height - tileSize*3 && !gameOver)
        {
            this.jump();
        }
@@ -211,7 +211,7 @@ class Play extends Phaser.Scene
            this.topCollision();
         }
 
-        if(!this.gameOver) 
+        if(!gameOver) 
         {
             this.score += 1;
             this.scoreCount.text = "Score: " + this.score;
@@ -227,7 +227,7 @@ class Play extends Phaser.Scene
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
-            this.gameOver = true;
+            gameOver = true;
         }
         if(this.health == 2){
             this.health -= 1;
@@ -279,7 +279,7 @@ class Play extends Phaser.Scene
             //    topGroupArr[i].destroy();
             //}
 
-            if(this.robo.y > topGroupArr[i].y)
+            if((this.robo.y > topGroupArr[i].y) && (this.physics.world.overlap(this.robo, topGroupArr[i])))
             {
                 topGroupArr[i].destroy();
             }
@@ -293,7 +293,7 @@ class Play extends Phaser.Scene
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
-            this.gameOver = true;
+            gameOver = true;
         }
         if(this.health == 2){
             this.health -= 1;
