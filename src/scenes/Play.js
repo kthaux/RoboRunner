@@ -41,6 +41,7 @@ class Play extends Phaser.Scene
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
         });
+
         //establish group for top barriers
         this.topBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -69,10 +70,13 @@ class Play extends Phaser.Scene
 
         // add physics collider
         this.physics.add.collider(this.robo, this.ground);
+
         // GAME OVER flag
         this.gameOver = false;
         this.headHealth = 2;
         this.legHealth = 2;
+        this.botCollider = this.physics.world.collide(this.robo, this.botBarrierGroup, this.botCollision, null, this);
+        this.topCollider = this.physics.world.collide(this.robo, this.topBarrierGroup, this.topCollision, null, this);
     }
 
     update()
@@ -83,20 +87,35 @@ class Play extends Phaser.Scene
        {
            this.jump();
        }
-       //alternate type of collision detection
-       //this.physics.world.collide(this.robo, this.botBarrierGroup, this.botCollision, null, this);
-       //this.physics.world.collide(this.robo, this.topBarrierGroup, this.topCollision, null, this);
+
+       
+       //alternate type of collision detection       
+       if(this.checkCollision(this.robo, this.botBarrierGroup)){
+           
+           console.log("Collision with bottom group.");
+       }
+
+       if(this.checkCollision(this.robo, this.topBarrierGroup)){
+        
+        console.log("Collision with top group.");
+    }
+    
+       
        
        //check for bot collision
+       
        if(this.physics.world.overlap(this.robo, this.botBarrierGroup))
        {
+           this.isTouching = true;
            this.botCollision();
        }
        //check for top collision
        if(this.physics.world.overlap(this.robo, this.topBarrierGroup))
        {
+            this.isTouching = true;
            this.topCollision();
         }
+        
     }
 
 
@@ -153,11 +172,25 @@ class Play extends Phaser.Scene
 
     botCollision()
     {
-        console.log('detected collision with bot barrier');
+        let botGroupArr = this.botBarrierGroup.getChildren();
+        for(let i = 0; i < botGroupArr.length; i++)
+        {
+            if(this.physics.world.overlap(this.robo, botGroupArr[i]))
+            {
+                botGroupArr[i].destroy();
+            }
+        }
     }
     topCollision()
     {
-        console.log('detected collision with top barrier');
+        let topGroupArr = this.topBarrierGroup.getChildren();
+        for(let i = 0; i < topGroupArr.length; i++)
+        {
+            if(this.physics.world.overlap(this.robo, topGroupArr[i]))
+            {
+                topGroupArr[i].destroy();
+            }
+        }
     }
 
     

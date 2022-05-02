@@ -25,4 +25,8 @@ class BotBarrier extends Phaser.Physics.Arcade.Sprite
             this.destroy();
         }
     }
+
+    begone(){
+        this.destroy();
+    }
 }
