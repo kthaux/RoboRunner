@@ -22,6 +22,7 @@ class Load extends Phaser.Scene
         this.load.image('clouds', 'assets/clouds.png');
         this.load.image('bg', 'assets/bg.png');
         this.load.image('screw', 'assets/screw.png');
+        this.load.spritesheet('walk', 'assets/robo_walk.png');
         //load audio
         this.load.audio('gethit', './assets/hit.wav');
         this.load.audio('gameover', './assets/gameover.wav');

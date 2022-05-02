@@ -68,6 +68,7 @@ class Play extends Phaser.Scene
             this.createTopBarrier();
         })
 
+        
 
         //ground tile code below used from Nathan Altice's Movement Studies
         this.ground = this.add.group();
