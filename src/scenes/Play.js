@@ -30,7 +30,7 @@ class Play extends Phaser.Scene
         this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
     
         //add our robo boy sprite TODO: custom sprite/animation
-        this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
+        this.robo = this.physics.add.sprite(120, game.config.height - tileSize*4, 'robo').setScale(SCALE);
         this.robo.setGravityY(2200);
         // display score
         this.health = 2;
@@ -71,8 +71,18 @@ class Play extends Phaser.Scene
         this.anims.create({
             key: 'walking',
             frames: 'walk',
-            frameRate: 15
+            frameRate: 8,
+            repeat: -1
         });
+
+        this.anims.create({
+            key: 'dmgwalking',
+            frames: 'dmgwalk',
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.robo.anims.play('walking');
 
         //ground tile code below used from Nathan Altice's Movement Studies
         this.ground = this.add.group();
