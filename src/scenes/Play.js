@@ -8,7 +8,7 @@ class Play extends Phaser.Scene
     create()
     {
         this.SPEED = 4;
-        this.barrierSpeed = -450;
+        this.barrierSpeed = -300;
         //this.physics.world.gravity.y = 2600;
 
         // define keys maybe not needed with cursors
@@ -23,20 +23,26 @@ class Play extends Phaser.Scene
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*3, 'robo').setScale(SCALE);
         this.robo.setGravityY(2400);
         // display score
+        this.health = 2;
+        this.score = 0;
+        
+        
+        // display score
         let scoreConfig = 
         {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'right',
+            align: 'left',
             padding: {
             top: 5,
             bottom: 5,
             },
-            fixedWidth: 100
         }
 
+        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
         //establish group for bottom barriers
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -71,21 +77,26 @@ class Play extends Phaser.Scene
         this.physics.add.collider(this.robo, this.ground);
         // GAME OVER flag
         this.gameOver = false;
-        this.headHealth = 2;
-        this.legHealth = 2;
+
+        //background for the repair section of the screen
+        this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
+
+        this.gear1 = this.add.sprite(game.config.width/ 2,game.config.height /2,300, 300, 'gear');
     }
 
     update()
     {
        this.runnerBack.tilePositionX += this.SPEED;
        this.groundScroll.tilePositionX += this.SPEED;
+
+
        if(keyW.isDown && this.robo.y > game.config.height - tileSize*3)
        {
            this.jump();
        }
-       //alternate type of collision detection
-       //this.physics.world.collide(this.robo, this.botBarrierGroup, this.botCollision, null, this);
-       //this.physics.world.collide(this.robo, this.topBarrierGroup, this.topCollision, null, this);
+
+
+       
        
        //check for bot collision
        if(this.physics.world.overlap(this.robo, this.botBarrierGroup))
@@ -97,8 +108,27 @@ class Play extends Phaser.Scene
        {
            this.topCollision();
         }
+
+        
     }
 
+
+    takeDamage()
+    {
+        this.cameras.main.flash(250, 255,0, 0)
+        if(this.health == 1){
+            this.health -= 1;
+            this.healthCount.text = "Health: " + this.health;
+            this.robo.setTexture("dead");
+            this.gameOver = true;
+        }
+        if(this.health == 2){
+            this.health -= 1;
+            this.robo.setTexture("hurt");
+            this.healthCount.text = "Health: " + this.health;
+        }
+
+    }
 
     jump(){
         this.robo.setVelocityY(-1000);
@@ -118,6 +148,7 @@ class Play extends Phaser.Scene
         this.topBarrierGroup.add(topBarrier);
     }
 
+    /*
     headCollision() {
         this.headHealth -= 1;
         if (this.headHealth == 0) {
@@ -133,24 +164,9 @@ class Play extends Phaser.Scene
             this.gameEnd();
         }
     }
+    */
 
-    checkCollision(man, obstacle) 
-    {
-        // simple AABB checking
-        //check if a rocket and ship have overlapping sprites
-        if (man.x < obstacle.x + obstacle.width && 
-            man.x + man.width > obstacle.x && 
-            man.y < obstacle.y + obstacle.height &&
-            man.height + man.y > obstacle. y) 
-            {
-                return true;
-        } 
-        else 
-        {
-            return false;
-        }
-    }
-
+    
     botCollision()
     {
         let botGroupArr = this.botBarrierGroup.getChildren();

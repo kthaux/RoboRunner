@@ -13,7 +13,8 @@ class Load extends Phaser.Scene
         this.load.image('robo', 'assets/robo.png')
         this.load.image('topBarrier', 'assets/lamppost.png')
         this.load.image('botBarrier', 'assets/trafficcone.png')
-
+        this.load.image('gear', 'assets/gear.png')
+        this.load.image('repairBack', 'assets/repairBack.png');
     }
 
     create() 
