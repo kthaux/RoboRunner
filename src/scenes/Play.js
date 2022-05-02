@@ -68,7 +68,11 @@ class Play extends Phaser.Scene
             this.createTopBarrier();
         })
 
-        
+        this.anims.create({
+            key: 'walking',
+            frames: 'walk',
+            frameRate: 15
+        });
 
         //ground tile code below used from Nathan Altice's Movement Studies
         this.ground = this.add.group();
