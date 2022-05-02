@@ -110,14 +110,14 @@ class Play extends Phaser.Scene
 
 
 
-        this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
+        /*this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
         this.screw1.setInteractive({
             dropZone: true
         });
         this.screw2 = this.add.sprite(game.config.width - 130, 110, 'screw');
         this.screw2.setInteractive({
             dropZone: true
-        });
+        });*/
 
         
         //GEAR 1
