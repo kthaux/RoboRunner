@@ -291,22 +291,16 @@ class Play extends Phaser.Scene
     
     takeDamage()
     {
-        //this.sound.play('hurt');
+        this.sound.play('gethit');
         this.cameras.main.flash(250, 255,0, 0)
         if(this.health == 1){
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.setTexture("dead");
+            this.sound.play('gameover');
             gameOver = true;
-<<<<<<< HEAD
-            /*
-            this.time.delayedCall(2500, () => {
-                this.sound.play('gameover');
-            }*/
-=======
             this.gear1.destroy();
             this.gear2.destroy();
->>>>>>> e3c718b6f3b37810df7f248d5ada16a0f763bbf6
         }
 
         if(this.health == 2){

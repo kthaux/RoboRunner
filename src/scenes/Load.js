@@ -7,6 +7,7 @@ class Load extends Phaser.Scene
 
     preload() 
     {
+        //load images
         this.load.image('runnerBack', 'assets/runnerBack.png');
         this.load.image('groundScroll', 'assets/ground.png');
         this.load.image('groundTile', 'assets/groundTile.png');
@@ -21,8 +22,9 @@ class Load extends Phaser.Scene
         this.load.image('clouds', 'assets/clouds.png');
         this.load.image('bg', 'assets/bg.png');
         this.load.image('screw', 'assets/screw.png');
-        //this.load.audio('gethit', './assets/hit.wav');
-        //this.load.audio('gameover', './assets/gameover.wav');
+        //load audio
+        this.load.audio('gethit', './assets/hit.wav');
+        this.load.audio('gameover', './assets/gameover.wav');
     }
 
     create() 
