@@ -223,6 +223,10 @@ class Play extends Phaser.Scene
        {
            this.jump();
        }
+
+       if(this.robo.isGrounded && this.robo.anims.isPaused){
+           this.robo.anims.resume();
+       }
        
        //check for bot collision
        
@@ -247,6 +251,7 @@ class Play extends Phaser.Scene
     }
 
     jump(){
+        this.robo.anims.pause();
         this.robo.setVelocityY(-1000);
     }
 
