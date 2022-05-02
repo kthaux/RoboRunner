@@ -153,11 +153,25 @@ class Play extends Phaser.Scene
 
     botCollision()
     {
-        console.log('detected collision with bot barrier');
+        let botGroupArr = this.botBarrierGroup.getChildren();
+        for(let i = 0; i < botGroupArr.length; i++)
+        {
+            if(this.physics.world.overlap(this.robo, botGroupArr[i]))
+            {
+                botGroupArr[i].destroy();
+            }
+        }
     }
     topCollision()
     {
-        console.log('detected collision with top barrier');
+        let topGroupArr = this.topBarrierGroup.getChildren();
+        for(let i = 0; i < topGroupArr.length; i++)
+        {
+            if(this.physics.world.overlap(this.robo, topGroupArr[i]))
+            {
+                topGroupArr[i].destroy();
+            }
+        }
     }
 
     
