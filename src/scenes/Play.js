@@ -47,8 +47,8 @@ class Play extends Phaser.Scene
         this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
         this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
 
-        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
-        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
+        //this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
+        //this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
         //establish group for bottom barriers
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -89,12 +89,31 @@ class Play extends Phaser.Scene
         //background for the repair section of the screen
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
 
-        this.gear1 = this.add.sprite(game.config.width/ 2,game.config.height /2,300, 300, 'gear');
+        this.gear1 = this.add.sprite(game.config.width - 250, 300, 'gear');
+        this.gear1.setInteractive({
+            draggable: true,
+            useHandCursor: true
+        });
+        this.gear1.on('drag', (pointer, dragX, dragY)=>{
+            this.gear1.x = dragX;
+            this.gear1.y = dragY;
+        });
+        this.gear2 = this.add.sprite(game.config.width - 150, 150, 'gear');
+        this.gear2.setInteractive({
+            draggable: true,
+            useHandCursor: true
+        });
+        this.gear2.on('drag', (pointer, dragX, dragY)=>{
+            this.gear2.x = dragX;
+            this.gear2.y = dragY;
+        });
     }
 
     update()
     {
-       // check if alien is grounded
+       this.gear1.angle += 0.5;
+       this.gear2.angle -= 0.5;
+        // check if alien is grounded
 	    this.robo.isGrounded = this.robo.body.touching.down;
 	    // if so, we have jumps to spare 
 	    if(this.robo.isGrounded) {
@@ -185,15 +204,22 @@ class Play extends Phaser.Scene
             if(this.physics.world.overlap(this.robo, botGroupArr[i]))
             {
                 botGroupArr[i].destroy();
+                this.gear1.setTexture('gearBroke');
             }
         }
     }
+
     topCollision()
     {
         let topGroupArr = this.topBarrierGroup.getChildren();
         for(let i = 0; i < topGroupArr.length; i++)
         {
-            if(this.physics.world.overlap(this.robo, topGroupArr[i]))
+            //if(this.physics.world.overlap(this.robo, topGroupArr[i]))
+            //{
+            //    topGroupArr[i].destroy();
+            //}
+
+            if(this.robo.y > topGroupArr[i].y)
             {
                 topGroupArr[i].destroy();
             }
