@@ -224,7 +224,7 @@ class Play extends Phaser.Scene
            this.jump();
        }
 
-       if(this.robo.isGrounded && this.robo.anims.isPaused){
+       if(this.robo.isGrounded && this.robo.anims.isPaused && this.robo.texture.key != "dead"){
            this.robo.anims.resume();
        }
        
