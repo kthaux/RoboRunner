@@ -150,6 +150,10 @@ class Play extends Phaser.Scene
         this.gear1.on('drop', (pointer, target) => {
             if (target.texture.key === 'screw') {
                 this.health += 1;
+                this.healthCount.text = "Health: " + this.health;
+                this.robo.anims.stop();
+                this.robo.setTexture('robo');
+                this.robo.anims.play('walking');
             }
         });
 
