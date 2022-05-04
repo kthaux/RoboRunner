@@ -33,13 +33,13 @@ class Play extends Phaser.Scene
         this.robo = this.physics.add.sprite(120, game.config.height - tileSize*4, 'robo').setScale(SCALE);
         this.robo.setGravityY(2200);
         // display score
-        this.health = 2;
+        this.health = 3;
         this.score = 0;
         let scoreConfig = 
         {
             fontFamily: 'Cheri',
             fontSize: '28px',
-            color: '#FF0000',
+            color: '#BEBEBE',
             align: 'left',
             padding: {
             top: 5,
@@ -47,8 +47,8 @@ class Play extends Phaser.Scene
             },
         }
         
-        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
-        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
+        this.healthCount = this.add.text(10, 38, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(10, 0, "Score: " + this.score, scoreConfig);
 
         // music
         this.music = this.sound.add('bgm');
@@ -133,54 +133,76 @@ class Play extends Phaser.Scene
             draggable: true,
             useHandCursor: true
         });
+        this.gear1.input.draggable = false;
 
         this.gear1.on('drag', (pointer, dragX, dragY)=>{
             this.gear1.x = dragX;
             this.gear1.y = dragY;
 
         });
-
+        
         this.gear1.on('dragend', (pointer, dragX, dragY) => {
 
+            //reset gear location when dragged off of repair screen
             if(pointer.x < 850)
             {
-                this.gear1.x = game.config.width - 250;
+                this.gear1.x = game.config.width - 150;
+                this.gear1.y = game.config.height - 50;
                 this.gear1.setTexture('gear');
 
             }
         });
+        
 
         this.gear1.on('drop', (pointer, target) => {
             if (target.texture.key === 'screw') {
                 this.health += 1;
+                this.healthCount.text = "Health: " + this.health;
+                this.robo.anims.stop();
+                this.robo.setTexture('robo');
+                this.robo.anims.play('walking');
+                this.gear1.input.draggable = false;
             }
         });
-
-
         
-
-        //GEAR2
+        //GEAR 2
         this.gear2 = this.add.sprite(game.config.width - 130, 110, 'gear');
         this.gear2.setInteractive({
             draggable: true,
             useHandCursor: true
         });
+        this.gear2.input.draggable = false;
 
         this.gear2.on('drag', (pointer, dragX, dragY)=>{
             this.gear2.x = dragX;
             this.gear2.y = dragY;
 
         });
-
+        
         this.gear2.on('dragend', (pointer, dragX, dragY) => {
 
+            //reset gear location when dragged off of repair screen
             if(pointer.x < 850)
             {
-                this.gear2.x = game.config.width - 250;
+                this.gear2.x = game.config.width - 150;
+                this.gear2.y = game.config.height - 50;
                 this.gear2.setTexture('gear');
 
             }
         });
+        
+
+        this.gear2.on('drop', (pointer, target) => {
+            if (target.texture.key === 'screw') {
+                this.health += 1;
+                this.healthCount.text = "Health: " + this.health;
+                this.robo.anims.stop();
+                this.robo.setTexture('robo');
+                this.robo.anims.play('walking');
+                this.gear2.input.draggable = false;
+            }
+        });
+        
         
     }
 
@@ -281,9 +303,71 @@ class Play extends Phaser.Scene
             if(this.physics.world.overlap(this.robo, botGroupArr[i]))
             {
                 botGroupArr[i].destroy();
-                this.gear2.setTexture('gearBroke');
+                
             }
         }
+        //check state of the first gear
+        if(this.gear1.texture.key == 'gear')
+        {
+            //if not yet broken, change sprite to broken
+            this.gear1.setTexture('gearBroke');
+            // and let it be draggable
+            this.gear1.input.draggable = true;
+
+        }
+        //if one gear is broke, go to else
+        else
+        {
+            //if both gears are broke when hit, go here
+            if(this.gear2.texture.key == 'gearBroke')
+            {
+                console.log('hit when both gears are broke');
+                this.health -= 1;
+                this.healthCount.text = "Health: " + this.health;
+                this.robo.anims.stop();
+                this.music.stop();
+                this.robo.setTexture("dead");
+                gameOver = true;
+                
+                this.time.delayedCall(1000, () => {
+                    this.sound.play('gameover');
+                });
+
+                this.time.delayedCall(3000, () => {
+                    if(this.score > bestScore) {
+                        bestScore = this.score;
+                    }
+                    console.log('about to call the menu scene');
+                    this.scene.start('menuScene');
+
+                });
+
+                this.gear1.destroy();
+                this.gear2.destroy();
+
+                let topGroupArr = this.topBarrierGroup.getChildren();
+                for(let i = 0; i < topGroupArr.length; i++)
+                {
+                    topGroupArr[i].destroy();
+                }
+
+                let botGroupArr = this.botBarrierGroup.getChildren();
+                for(let i = 0; i < botGroupArr.length; i++)
+                {
+                    botGroupArr[i].destroy();
+                }
+            }
+            else
+            {
+                this.gear2.setTexture('gearBroke');
+
+                this.gear2.input.draggable = true;
+            }
+            
+            
+        }
+
+
     }
 
     topCollision()
@@ -308,6 +392,7 @@ class Play extends Phaser.Scene
         this.sound.play('gethit');
         this.cameras.main.flash(250, 255,0, 0)
         if(this.health == 1){
+            /*
             this.health -= 1;
             this.healthCount.text = "Health: " + this.health;
             this.robo.anims.stop();
@@ -317,6 +402,14 @@ class Play extends Phaser.Scene
             
             this.time.delayedCall(1000, () => {
                 this.sound.play('gameover');
+            });
+
+            this.time.delayedCall(3000, () => {
+                if(this.score > bestScore) {
+                    bestScore = this.score;
+                }
+                this.scene.start('menuScene');
+
             });
 
             this.gear1.destroy();
@@ -333,6 +426,8 @@ class Play extends Phaser.Scene
             {
                 botGroupArr[i].destroy();
             }
+
+            */
         }
 
         if(this.health == 2){

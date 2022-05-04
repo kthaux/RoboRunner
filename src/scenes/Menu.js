@@ -1,66 +1,72 @@
-// Basic menu copied over from the rocket patrol game as a base
-class Menu extends Phaser.Scene
-{
-    constructor()
-    {
-        super("menuScene");
-    }
-
-    preload() 
-    {
-        // load audio
-        //this.load.audio('sfx_select', 'assets/blip_select12.wav');
-    }
-
-    create()
-    {
-        let menuConfig = {
+class Menu extends Phaser.Scene {
+  constructor() {
+      super("menuScene");
+  }
+  
+  create() {
+      let menuConfig = {
+          fontFamily: 'OCR A Std',
+          fontSize: '40px',
+          color: '#BEBEBE',
+          align: 'right',
+          padding: {
+          top: 5,
+          bottom: 5,
+          },
+      }
+      let scoreConfig = 
+        {
             fontFamily: 'Cheri',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            color: '#BEBEBE',
+            align: 'left',
             padding: {
             top: 5,
             bottom: 5,
             },
-            fixedWidth: 0
         }
-        /*
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use <- -> arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press <- for Novice or -> for Expert', menuConfig).setOrigin(0.5);
 
-        // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        */
-    }
+      this.title = this.add.text(game.config.width/2, 20, 'Robo Runner', menuConfig).setOrigin(0.5);
+      this.danger = this.add.text(game.config.width/2, 50, "Don't let both of your gears break", menuConfig).setOrigin(0.5);
+      this.instructions = this.add.text(game.config.width/2, 50, 'Press W to Jump', menuConfig).setOrigin(0.5);
+      this.gears = this.add.text(game.config.width/2, 75, 'Use the mouse to replace broken gears with new ones', menuConfig).setOrigin(0.5);
+      this.instructions = this.add.text(game.config.width/2, 375, 'Press W to Jump', menuConfig).setOrigin(0.5);
+      this.begin = this.add.text(game.config.width/2, centerY + 170, 'Press Space to Start Running', menuConfig).setOrigin(0.5);
+      this.instructions.setFontSize(20);
+      this.danger.setFontSize(20);
+      this.gears.setFontSize(20);
+      menuConfig.backgroundColor = '#00FF00';
+      menuConfig.color = '#000';
+      keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);    
 
-    update()
-    {
-      //detect input for navigating the menu  
-      /*
-      if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            // easy mode
-            game.settings = {
-              spaceshipSpeed: 3,
-              gameTimer: 60000    
-            }
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');    
-          }
-          if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
-            game.settings = {
-              spaceshipSpeed: 4,
-              gameTimer: 45000    
-            }
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');    
-          }
-          */
-    }
+    this.bg = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg').setOrigin(0);
+    this.clouds = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'clouds').setOrigin(0);
+    this.runnerBack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'runnerBack').setOrigin(0);
+    this.ground = this.add.group();
+        //Add individual tiles with collision
+        for(let i = 0; i < game.config.width; i += tileSize) 
+        {
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'groundTile').setScale(SCALE).setOrigin(0);
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
+        // put a tile sprite above the collision tiles that we can scroll
+        this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
+    this.title.setDepth(100);
+    this.instructions.setDepth(100);
+    this.gears.setDepth(100);
+    this.begin.setDepth(100);
+    this.danger.setDepth(100);
+    this.Bitsy = this.robo = this.physics.add.sprite(120, game.config.height - tileSize*2.8, 'robo').setScale(SCALE);
+    this.bestScoreCount = this.add.text(10, 0, "Score: " + bestScore, scoreConfig);
+    
+  }
+  
+  update() {
+      if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+          // easy mode
+          this.scene.start('playScene');   
+        }
+  }
 }

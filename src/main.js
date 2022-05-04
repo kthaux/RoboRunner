@@ -24,13 +24,17 @@ const tileSize = 35;
 let cursors;
 let gameOver = false;
 //maybe unnessecary with cursors
-let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE;
+let bestScore = 0;
 //establish main game config and physics
 let config = 
 {
     type: Phaser.AUTO,
     width: 1280,
     height: 480,
+    scale: {
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     
     physics: 
     {
@@ -46,7 +50,7 @@ let config =
         }
     },
 
-    scene: [ Load, Play ] //TODO put menu back in after testing
+    scene: [ Load, Menu, Play ] //TODO put menu back in after testing
 };
 
 
@@ -55,3 +59,5 @@ let game = new Phaser.Game(config);
 
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
+let keyLeft, keyRight;
+let RKey, WKey;
