@@ -321,6 +321,9 @@ class Play extends Phaser.Scene
             });
 
             this.time.delayedCall(3000, () => {
+                if(this.score > bestScore) {
+                    bestScore = this.score;
+                }
                 this.scene.start('menuScene');
 
             });

@@ -14,6 +14,17 @@ class Menu extends Phaser.Scene {
           bottom: 5,
           },
       }
+      let scoreConfig = 
+        {
+            fontFamily: 'Cheri',
+            fontSize: '28px',
+            color: '#BEBEBE',
+            align: 'left',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+        }
 
       this.title = this.add.text(game.config.width/2, 20, 'Robo Runner', menuConfig).setOrigin(0.5);
       this.instructions = this.add.text(game.config.width/2, 50, 'Press W to Jump', menuConfig).setOrigin(0.5);
@@ -44,6 +55,8 @@ class Menu extends Phaser.Scene {
     this.gears.setDepth(100);
     this.begin.setDepth(100);
     this.Bitsy = this.robo = this.physics.add.sprite(120, game.config.height - tileSize*2.8, 'robo').setScale(SCALE);
+    this.bestScoreCount = this.add.text(10, 0, "Score: " + bestScore, scoreConfig);
+    
   }
   
   update() {
