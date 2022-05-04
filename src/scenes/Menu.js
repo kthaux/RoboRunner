@@ -27,10 +27,13 @@ class Menu extends Phaser.Scene {
         }
 
       this.title = this.add.text(game.config.width/2, 20, 'Robo Runner', menuConfig).setOrigin(0.5);
+      this.danger = this.add.text(game.config.width/2, 50, "Don't let both of your gears break", menuConfig).setOrigin(0.5);
       this.instructions = this.add.text(game.config.width/2, 50, 'Press W to Jump', menuConfig).setOrigin(0.5);
       this.gears = this.add.text(game.config.width/2, 75, 'Use the mouse to replace broken gears with new ones', menuConfig).setOrigin(0.5);
-      this.begin = this.add.text(game.config.width/2, centerY + 160, 'Press Space to Start Running', menuConfig).setOrigin(0.5);
+      this.instructions = this.add.text(game.config.width/2, 375, 'Press W to Jump', menuConfig).setOrigin(0.5);
+      this.begin = this.add.text(game.config.width/2, centerY + 170, 'Press Space to Start Running', menuConfig).setOrigin(0.5);
       this.instructions.setFontSize(20);
+      this.danger.setFontSize(20);
       this.gears.setFontSize(20);
       menuConfig.backgroundColor = '#00FF00';
       menuConfig.color = '#000';
@@ -54,6 +57,7 @@ class Menu extends Phaser.Scene {
     this.instructions.setDepth(100);
     this.gears.setDepth(100);
     this.begin.setDepth(100);
+    this.danger.setDepth(100);
     this.Bitsy = this.robo = this.physics.add.sprite(120, game.config.height - tileSize*2.8, 'robo').setScale(SCALE);
     this.bestScoreCount = this.add.text(10, 0, "Score: " + bestScore, scoreConfig);
     
