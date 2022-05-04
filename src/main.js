@@ -46,7 +46,7 @@ let config =
         }
     },
 
-    scene: [ Load, Play ] //TODO put menu back in after testing
+    scene: [ Load, Menu, Play ] //TODO put menu back in after testing
 };
 
 
@@ -55,3 +55,5 @@ let game = new Phaser.Game(config);
 
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
+let keyLeft, keyRight;
+let RKey, WKey;
