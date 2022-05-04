@@ -8,6 +8,15 @@ are happy about the art of how Bitsy changes from happy to sad when damaged/hit 
 nothing necessarily feels out of place.
 
 MAKE SURE TO PUT WHAT PROGRAMMING TECHNIQUE THAT WE ARE HAPPY WE GOT TO IMPLEMENT
+
+
+Assets
+Need to Make/Modify:
+- bgm
+- font
+- gameover sound 
+- gear
+- hit sound 
 */
 
 const SCALE = 0.5;
