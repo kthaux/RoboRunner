@@ -12,11 +12,11 @@ MAKE SURE TO PUT WHAT PROGRAMMING TECHNIQUE THAT WE ARE HAPPY WE GOT TO IMPLEMEN
 
 Assets
 Need to Make/Modify:
-- bgm
-- font
-- gameover sound 
-- gear
-- hit sound 
+- bgm 
+- font x
+- gameover sound ()
+- gear x
+- hit sound (thonk)
 */
 
 const SCALE = 0.5;

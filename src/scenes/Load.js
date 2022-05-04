@@ -23,6 +23,8 @@ class Load extends Phaser.Scene
         this.load.image('bg', 'assets/bg.png');
         this.load.audio('bgm', 'assets/bgm.wav');
         this.load.image('screw', 'assets/screw.png');
+        this.load.image('gearbox', 'assets/gearbox.png');
+        this.load.image('trash', 'assets/trash.png');
         this.load.spritesheet('walk', 'assets/robo_walk.png', {
             frameWidth: 320,
             frameHeight: 256

@@ -113,6 +113,9 @@ class Play extends Phaser.Scene
         this.repairBack = this.add.tileSprite(game.config.width - 200 ,game.config.height, game.config.width / 3, game.config.height * 3, 'repairBack');
 
 
+        this.gearbox = this.add.sprite(game.config.width - 310, 420, 'gearbox');
+        this.trash = this.add.sprite(game.config.width - 93, 420, 'trash');
+
         //gears and screw dragging and dropping set up with reference to Nathan Altice's "They Are Listening" repo
         this.screw1 = this.add.sprite(game.config.width - 300, 200, 'screw');
         this.screw1.setInteractive({
