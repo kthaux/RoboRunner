@@ -39,7 +39,7 @@ class Play extends Phaser.Scene
         {
             fontFamily: 'Cheri',
             fontSize: '28px',
-            color: '#FF0000',
+            color: '#BEBEBE',
             align: 'left',
             padding: {
             top: 5,
@@ -47,8 +47,8 @@ class Play extends Phaser.Scene
             },
         }
         
-        this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
-        this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
+        this.healthCount = this.add.text(10, 38, "Health: " + this.health, scoreConfig);
+        this.scoreCount = this.add.text(10, 0, "Score: " + this.score, scoreConfig);
 
         // music
         this.music = this.sound.add('bgm');
@@ -318,6 +318,11 @@ class Play extends Phaser.Scene
             
             this.time.delayedCall(1000, () => {
                 this.sound.play('gameover');
+            });
+
+            this.time.delayedCall(3000, () => {
+                this.scene.start('menuScene');
+
             });
 
             this.gear1.destroy();

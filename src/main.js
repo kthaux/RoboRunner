@@ -24,7 +24,7 @@ const tileSize = 35;
 let cursors;
 let gameOver = false;
 //maybe unnessecary with cursors
-let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE;
 //establish main game config and physics
 let config = 
 {
