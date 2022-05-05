@@ -210,9 +210,14 @@ class Play extends Phaser.Scene
     { 
         if(!gameOver)
         {
-            this.gear1.angle -= 0.5;
-            this.gear2.angle += 0.5;
+            if(this.gear1.texture.key != 'gearBroke'){
+                this.gear1.angle -= 0.5;
+            }
+            if(this.gear2.texture.key != 'gearBroke'){
+                this.gear2.angle += 0.5;
+            }
         }
+
         if(gameOver && Phaser.Input.Keyboard.JustDown(keyR))
         {
             this.scene.restart();
@@ -306,6 +311,8 @@ class Play extends Phaser.Scene
                 
             }
         }
+        this.health -= 1;
+        this.healthCount.text = "Health: " + this.health;
         //check state of the first gear
         if(this.gear1.texture.key == 'gear')
         {
