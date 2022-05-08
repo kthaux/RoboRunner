@@ -26,6 +26,7 @@ let gameOver = false;
 //maybe unnessecary with cursors
 let keyW, keyA, keyS, keyD, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keySPACE;
 let bestScore = 0;
+let score = 0;
 //establish main game config and physics
 let config = 
 {
@@ -50,7 +51,7 @@ let config =
         }
     },
 
-    scene: [ Load, Menu, Play ] //TODO put menu back in after testing
+    scene: [ Load, Menu, Instructions, Play, GameOver ] //TODO put menu back in after testing
 };
 
 

@@ -34,7 +34,7 @@ class Play extends Phaser.Scene
         this.robo.setGravityY(2200);
         // display score
         this.health = 3;
-        this.score = 0;
+        score = 0;
         let scoreConfig = 
         {
             fontFamily: 'Cheri',
@@ -48,7 +48,7 @@ class Play extends Phaser.Scene
         }
         
         this.healthCount = this.add.text(10, 38, "Health: " + this.health, scoreConfig);
-        this.scoreCount = this.add.text(10, 0, "Score: " + this.score, scoreConfig);
+        this.scoreCount = this.add.text(10, 0, "Score: " + score, scoreConfig);
 
         // music
         this.music = this.sound.add('bgm');
@@ -273,8 +273,8 @@ class Play extends Phaser.Scene
 
         if(!gameOver) 
         {
-            this.score += 1;
-            this.scoreCount.text = "Score: " + this.score;
+            score += 1;
+            this.scoreCount.text = "Score: " + score;
         }
 
         
@@ -349,11 +349,10 @@ class Play extends Phaser.Scene
                 });
 
                 this.time.delayedCall(3000, () => {
-                    if(this.score > bestScore) {
-                        bestScore = this.score;
+                    if(score > bestScore) {
+                        bestScore = score;
                     }
-                    console.log('about to call the menu scene');
-                    this.scene.start('menuScene');
+                    this.scene.start('gameoverScene');
 
                 });
 
