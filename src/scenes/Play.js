@@ -55,8 +55,6 @@ class Play extends Phaser.Scene
         this.music.setLoop(true);
         this.music.play();
 
-        //this.healthCount = this.add.text(0, 0, "Health: " + this.health, scoreConfig);
-        //this.scoreCount = this.add.text(0, 38, "Score: " + this.score, scoreConfig);
         //establish group for bottom barriers
         this.botBarrierGroup = this.add.group({
             runChildUpdate: true
@@ -69,6 +67,8 @@ class Play extends Phaser.Scene
         //start spawning barriers after 2.5 seconds
         this.time.delayedCall(2500, () => {
             this.createBotBarrier();
+        })
+        this.time.delayedCall(3500, () => {
             this.createTopBarrier();
         })
 
@@ -304,7 +304,10 @@ class Play extends Phaser.Scene
     {
         //creat new barrier and pass it a speed
         let topBarrier = new TopBarrier(this, this.barrierSpeed);
-        this.topBarrierGroup.add(topBarrier);
+        this.time.delayedCall(Math.random() * (2000 - 500) + 500, () => {
+            this.topBarrierGroup.add(topBarrier);
+        });
+        
     }
 
 
