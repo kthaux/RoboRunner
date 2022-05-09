@@ -34,7 +34,7 @@ class Load extends Phaser.Scene
             frameHeight: 256
         });
         //load audio
-        this.load.audio('gethit', './assets/hit.mp3');
+        this.load.audio('gethit', './assets/hit2.mp3');
         this.load.audio('gameover', './assets/gameover.mp3');
     }
 
