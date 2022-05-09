@@ -1,22 +1,14 @@
 /*
 Collaborator Names: Keaton Haux, Sean Osborne, Jennifer To
 Game Title: Robo Runner
-Date Completed: 05/01/2022
-Creative Tilt Justification: Our game implements a split screen of a sort where 1 screen is the endless runner and the other screen
-are the gears that run our robot Bitsy that's running! For programming, we are happy about -programming technique we implemented-. In addition, we
-are happy about the art of how Bitsy changes from happy to sad when damaged/hit and because all the art generally goes with each other and
-nothing necessarily feels out of place.
+Date Completed: 05/08/2022
+Creative Tilt Justification: Our game implements a sort of split-screen system where one screen is the endless runner itself featuring our robot runner Bitsy, while the other screen is the inner mechanics that keeps Bitsy running. For programming, we are happy about implementing:
+The split screen system, since it can create a sense of multitasking even though using it is completely optional
+The gears, as the feeling of replacing them with locking in new ones is admittedly pretty satisfying
+For art/music, we are happy about implementing:
+Happy/Sad Bitsy (changes when he gets repaired/damaged, which for animations can be difficult)
+Sound Effects/BGM (was some of our first times creating own audio)
 
-MAKE SURE TO PUT WHAT PROGRAMMING TECHNIQUE THAT WE ARE HAPPY WE GOT TO IMPLEMENT
-
-
-Assets
-Need to Make/Modify:
-- bgm 
-- font x
-- gameover sound ()
-- gear x
-- hit sound (thonk)
 */
 
 const SCALE = 0.5;
