@@ -297,14 +297,16 @@ class Play extends Phaser.Scene
     {
         //creat new barrier and pass it a speed
         let botBarrier = new BotBarrier(this, this.barrierSpeed);
-        this.botBarrierGroup.add(botBarrier);
+        this.time.delayedCall(Math.random() * (2000 - 1000) + 1000, () => {
+            this.botBarrierGroup.add(botBarrier);
+        });
     }
 
     createTopBarrier()
     {
         //creat new barrier and pass it a speed
         let topBarrier = new TopBarrier(this, this.barrierSpeed);
-        this.time.delayedCall(Math.random() * (2000 - 500) + 500, () => {
+        this.time.delayedCall(Math.random() * (5000 - 3000) + 3000, () => {
             this.topBarrierGroup.add(topBarrier);
         });
         
@@ -340,28 +342,7 @@ class Play extends Phaser.Scene
             if(this.gear2.texture.key == 'gearBroke')
             {
                 console.log('hit when both gears are broke');
-                this.health -= 1;
-                this.healthCount.text = "Health: " + this.health;
-                this.robo.anims.stop();
-                this.music.stop();
-                this.robo.setTexture("dead");
                 gameOver = true;
-                
-                this.time.delayedCall(1000, () => {
-                    this.sound.play('gameover');
-                });
-
-                this.time.delayedCall(3000, () => {
-                    if(score > bestScore) {
-                        bestScore = score;
-                    }
-                    this.scene.start('gameoverScene');
-
-                });
-
-                this.gear1.destroy();
-                this.gear2.destroy();
-
                 let topGroupArr = this.topBarrierGroup.getChildren();
                 for(let i = 0; i < topGroupArr.length; i++)
                 {
@@ -373,6 +354,27 @@ class Play extends Phaser.Scene
                 {
                     botGroupArr[i].destroy();
                 }
+                this.health -= 1;
+                this.healthCount.text = "Health: " + this.health;
+                this.robo.anims.stop();
+                this.music.stop();
+                this.robo.setTexture("dead");
+                
+                this.time.delayedCall(1000, () => {
+                    this.sound.play('gameover');
+                });
+
+                this.time.delayedCall(3000, () => {
+                    if(score > bestScore) {
+                        bestScore = score;
+                    }
+                    this.scene.start('gameoverScene');
+                });
+
+                this.gear1.destroy();
+                this.gear2.destroy();
+
+                
             }
             else
             {
