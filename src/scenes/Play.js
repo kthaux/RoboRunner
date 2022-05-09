@@ -156,12 +156,12 @@ class Play extends Phaser.Scene
 
         this.gear1.on('drop', (pointer, target) => {
             if (target.texture.key === 'screw') {
-                this.health += 1;
-                this.healthCount.text = "Health: " + this.health;
-                this.robo.anims.stop();
-                this.robo.setTexture('robo');
-                this.robo.anims.play('walking');
                 this.gear1.input.draggable = false;
+                if (player.anims.getCurrentKey() === 'dmgwalking'){
+                    this.robo.anims.stop();
+                    this.robo.setTexture('robo');
+                    this.robo.anims.play('walking');
+                }
             }
         });
         
@@ -194,11 +194,11 @@ class Play extends Phaser.Scene
 
         this.gear2.on('drop', (pointer, target) => {
             if (target.texture.key === 'screw') {
-                //this.health += 1;
-                //this.healthCount.text = "Health: " + this.health;
-                this.robo.anims.stop();
-                this.robo.setTexture('robo');
-                this.robo.anims.play('walking');
+                if (player.anims.getCurrentKey() === 'dmgwalking'){
+                    this.robo.anims.stop();
+                    this.robo.setTexture('robo');
+                    this.robo.anims.play('walking');
+                }
                 this.gear2.input.draggable = false;
             }
         });
@@ -375,8 +375,9 @@ class Play extends Phaser.Scene
             else
             {
                 this.gear2.setTexture('gearBroke');
-
                 this.gear2.input.draggable = true;
+                this.robo.anims.stop();
+                this.robo.anims.play('dmgwalking');
             }
             
             
