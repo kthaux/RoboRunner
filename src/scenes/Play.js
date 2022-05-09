@@ -47,7 +47,7 @@ class Play extends Phaser.Scene
             },
         }
         
-        this.healthCount = this.add.text(10, 38, "Health: " + this.health, scoreConfig);
+        //this.healthCount = this.add.text(10, 38, "Health: " + this.health, scoreConfig);
         this.scoreCount = this.add.text(10, 0, "Score: " + score, scoreConfig);
 
         // music
@@ -144,9 +144,9 @@ class Play extends Phaser.Scene
         this.gear1.on('dragend', (pointer, dragX, dragY) => {
 
             //reset gear location when dragged off of repair screen
-            if(pointer.x < 850)
+            if(pointer.x > game.config.width - 200 && pointer.y > game.config.height - 200)
             {
-                this.gear1.x = game.config.width - 150;
+                this.gear1.x = game.config.width - 300;
                 this.gear1.y = game.config.height - 50;
                 this.gear1.setTexture('gear');
 
@@ -182,9 +182,9 @@ class Play extends Phaser.Scene
         this.gear2.on('dragend', (pointer, dragX, dragY) => {
 
             //reset gear location when dragged off of repair screen
-            if(pointer.x < 850)
+            if(pointer.x > game.config.width - 200 && pointer.y > game.config.height - 200)
             {
-                this.gear2.x = game.config.width - 150;
+                this.gear2.x = game.config.width - 300;
                 this.gear2.y = game.config.height - 50;
                 this.gear2.setTexture('gear');
 
@@ -194,8 +194,8 @@ class Play extends Phaser.Scene
 
         this.gear2.on('drop', (pointer, target) => {
             if (target.texture.key === 'screw') {
-                this.health += 1;
-                this.healthCount.text = "Health: " + this.health;
+                //this.health += 1;
+                //this.healthCount.text = "Health: " + this.health;
                 this.robo.anims.stop();
                 this.robo.setTexture('robo');
                 this.robo.anims.play('walking');
@@ -324,8 +324,8 @@ class Play extends Phaser.Scene
                 
             }
         }
-        this.health -= 1;
-        this.healthCount.text = "Health: " + this.health;
+        //this.health -= 1;
+        //this.healthCount.text = "Health: " + this.health;
         //check state of the first gear
         if(this.gear1.texture.key == 'gear')
         {
@@ -341,12 +341,14 @@ class Play extends Phaser.Scene
             //if both gears are broke when hit, go here
             if(this.gear2.texture.key == 'gearBroke')
             {
-                console.log('hit when both gears are broke');
-                gameOver = true;
+                //console.log('hit when both gears are broke');
+                
                 let topGroupArr = this.topBarrierGroup.getChildren();
+                console.log(topGroupArr);
                 for(let i = 0; i < topGroupArr.length; i++)
                 {
                     topGroupArr[i].destroy();
+                    //console.log('destroying top group');
                 }
 
                 let botGroupArr = this.botBarrierGroup.getChildren();
@@ -354,8 +356,9 @@ class Play extends Phaser.Scene
                 {
                     botGroupArr[i].destroy();
                 }
-                this.health -= 1;
-                this.healthCount.text = "Health: " + this.health;
+                gameOver = true;
+                //this.health -= 1;
+                //this.healthCount.text = "Health: " + this.health;
                 this.robo.anims.stop();
                 this.music.stop();
                 this.robo.setTexture("dead");
@@ -373,7 +376,7 @@ class Play extends Phaser.Scene
 
                 this.gear1.destroy();
                 this.gear2.destroy();
-
+                //console.log('destroying gears at the end');
                 
             }
             else
@@ -410,6 +413,7 @@ class Play extends Phaser.Scene
     {
         this.sound.play('gethit');
         this.cameras.main.flash(250, 255,0, 0)
+        /*
         if(this.health == 1){
             /*
             this.health -= 1;
@@ -446,7 +450,7 @@ class Play extends Phaser.Scene
                 botGroupArr[i].destroy();
             }
 
-            */
+            
         }
 
         if(this.health == 2){
@@ -456,6 +460,7 @@ class Play extends Phaser.Scene
             this.robo.anims.stop();
             this.robo.anims.play('dmgwalking');
         }
+        */
         
     }
 }
