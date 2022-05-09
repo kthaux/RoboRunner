@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene {
       }
       let scoreConfig = 
         {
-            fontFamily: 'Cheri',
+            fontFamily: 'Courier',
             fontSize: '28px',
             color: '#BEBEBE',
             align: 'left',

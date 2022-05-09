@@ -21,7 +21,6 @@ class Load extends Phaser.Scene
         this.load.image('repairBack', 'assets/repairBack.png');
         this.load.image('clouds', 'assets/clouds.png');
         this.load.image('bg', 'assets/bg.png');
-        this.load.audio('bgm', 'assets/bgm.wav');
         this.load.image('screw', 'assets/screw.png');
         this.load.image('gearbox', 'assets/gearbox.png');
         this.load.image('trash', 'assets/trash.png');
@@ -36,6 +35,7 @@ class Load extends Phaser.Scene
         //load audio
         this.load.audio('gethit', './assets/hit.mp3');
         this.load.audio('gameover', './assets/gameover.mp3');
+        this.load.audio('bgm', 'assets/bgm.mp3');
     }
 
     create() 
