@@ -281,15 +281,8 @@ class Play extends Phaser.Scene
     }
 
     jump(){
-        if(this.gear1.texture.key == 'gearBroke' && this.gear2.texture.key == 'gearBroke'){
-            this.time.delayedCall(250, () => {
-                this.robo.anims.pause();
-                this.robo.setVelocityY(-1000);
-            });
-        } else {
-            this.robo.anims.pause();
-            this.robo.setVelocityY(-1000);
-        }
+        this.robo.anims.pause();
+        this.robo.setVelocityY(-1000);
         
     }
 
